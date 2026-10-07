@@ -205,7 +205,12 @@
 .sh-final-circle{position:absolute;left:400px;top:0;width:84px;height:84px}
 .sh-final-half{position:absolute;left:0;top:356px;width:80px;height:160px}
 
+/* Header menu button stays visible once the header turns Deep Teal */
+.site-header.is-stuck .menu-btn{border-color:var(--line-deep)}
+.site-header.is-stuck .menu-btn path{stroke:var(--mist)}
+
 /* ---------- Responsive ---------- */
+@media (max-width:1360px){.sh-faq-kit{display:none}}
 @media (max-width:1240px){
   .ph-hero-art{left:auto;right:-60px;transform:scale(.8);transform-origin:100% 0}
   .ph-hero-half{left:auto;right:-120px}
@@ -221,7 +226,7 @@
   .ph-trust ul{grid-template-columns:1fr 1fr;gap:32px 24px}
   .sh-split{flex-direction:column;align-items:stretch;gap:48px}
   .sh-copy{width:auto;max-width:600px}
-  .sh-diagram-wrap{height:520px}
+  .sh-diagram-wrap{flex:none;height:520px}
   .sh-diagram{left:50%;transform:translateX(-50%)}
   .sh-arch-wrap{align-self:center;transform:none}
   .sh-steps{grid-template-columns:1fr 1fr;gap:48px 24px}
@@ -268,14 +273,14 @@
   .sh-picker{padding:24px 20px;gap:24px}
   .sh-band{top:auto;bottom:0;height:45%}
   .sh-cards{flex-direction:column;align-items:stretch}
-  .pcard{min-width:0;min-height:0;padding:24px}
+  .pcard{flex:none;min-width:0;min-height:0;padding:24px}
   .pcard.is-match{padding:23.5px}
   .pcard-badge{font-size:11.5px}
   .sh-hiw{padding:72px 0}
   .sh-steps{grid-template-columns:1fr;gap:40px}
   .sh-edu,.sh-helps{padding:72px 0}
   .sh-edu-kit{top:auto;bottom:-60px;width:110px;height:220px}
-  .sh-diagram-wrap{height:400px;margin:0 -24px;overflow:hidden}
+  .sh-diagram-wrap{flex:none;height:300px;margin:0 -24px;overflow:hidden}
   .sh-diagram{transform:translateX(-50%) scale(.56);transform-origin:50% 0;top:0}
   .cause{font-size:16px}
   .sh-arch-wrap{width:100%;height:auto;aspect-ratio:342/400;margin:0}

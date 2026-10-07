@@ -604,3 +604,7 @@ em,.em{font-style:italic}
 .cat,.cat .cat-for,.cat .desc,.cat .prov,.cat h3 a,.cat-tag{transition:background-color var(--t-hover) ease,color var(--t-hover) ease,border-color var(--t-hover) ease}
 .cat-tag svg{transition:transform 320ms ease}
 @media (hover:hover){.cat:hover{background:var(--teal);border-color:var(--teal);color:var(--mist)} .cat:hover h3 a,.cat:hover .cat-tag{color:var(--mist)} .cat:hover .cat-for,.cat:hover .desc,.cat:hover .prov{color:var(--on-dark)} .cat:hover .prov{border-top-color:var(--border-on-dark)} .cat:hover .cat-tag svg{transform:translateY(-10px) rotate(-8deg)} .cat:hover .btn-outline{border-color:var(--line-deep);color:var(--mist);background:transparent} .cat:hover .btn-outline:hover{background:var(--yellow);border-color:var(--yellow);color:var(--teal)}}
+
+/* Mobile menu button stays visible once the header turns Deep Teal (07.10) */
+.site-header.is-stuck .menu-btn{border-color:var(--line-deep)}
+.site-header.is-stuck .menu-btn path{stroke:var(--mist)}
