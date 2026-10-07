@@ -111,6 +111,86 @@
     fromHash(); window.addEventListener('hashchange', fromHash);
   });
 
+  /* How It Works tabs (motion per Avi's HTML): arrows / Home / End, Quarter turns and recolours per step */
+  const hw = $('.hw');
+  if (hw) {
+    const details = [
+      {h: 'Tell us what’s changed.', b: 'Complete a private online assessment covering your health, symptoms, and goals.'},
+      {h: 'A licensed provider reviews your information.', b: 'Labs may be requested when clinically appropriate.'},
+      {h: 'Receive a personalized care plan.', b: 'If treatment is appropriate, your provider will explain the recommended options.'},
+      {h: 'Stay supported.', b: 'Access ongoing guidance, follow-up, and adjustments based on your care plan.'}
+    ];
+    const tabs = $$('.hw-step', hw), stage = $('.hw-stage', hw), copy = $('.hw-copy', hw);
+    const select = (i, focus) => {
+      tabs.forEach((t, n) => { const on = n === i; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+      stage.dataset.step = String(i); stage.setAttribute('aria-labelledby', tabs[i].id);
+      $('.hw-counter', stage).textContent = `0${i + 1} / 04`;
+      $('h2', copy).textContent = details[i].h; $('p', copy).textContent = details[i].b;
+      copy.classList.remove('is-changing');
+      if (!isReduced()) { void copy.offsetWidth; copy.classList.add('is-changing'); }
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', e => {
+        const k = e.key; if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(k)) return;
+        e.preventDefault();
+        const n = k === 'Home' ? 0 : k === 'End' ? tabs.length - 1 : (i + (['ArrowRight', 'ArrowDown'].includes(k) ? 1 : -1) + tabs.length) % tabs.length;
+        select(n, true);
+      });
+    });
+    inView([hw], () => hw.classList.add('is-visible'), {threshold: .12});
+  }
+
+  /* FAQ page: category chips + live search (150ms), matches highlighted */
+  const fq = $('.fq-acc');
+  if (fq) {
+    const items = $$('.acc-item', fq), chips = $$('.fq-chip'), input = $('.fq-search input'), empty = $('.fq-empty');
+    const orig = new Map(items.map(it => [it, [$('.q', it).textContent, $('.acc-panel p', it).textContent]]));
+    let cat = 'all', t = 0;
+    const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const mark = (txt, q) => q ? txt.replace(new RegExp(esc(q), 'gi'), m => `<mark class="fq-hit">${m}</mark>`) : txt;
+    const apply = () => {
+      const q = (input?.value || '').trim();
+      let shown = 0;
+      items.forEach(it => {
+        const [qq, aa] = orig.get(it);
+        const okCat = cat === 'all' || it.dataset.cat === cat;
+        const okQ = !q || (qq + ' ' + aa).toLowerCase().includes(q.toLowerCase());
+        it.hidden = !(okCat && okQ); if (!it.hidden) shown++;
+        $('.q', it).innerHTML = mark(qq, q); $('.acc-panel p', it).innerHTML = mark(aa, q);
+      });
+      if (empty) empty.hidden = shown > 0;
+      if (!isReduced()) fq.animate([{opacity: .4}, {opacity: 1}], {duration: 220, easing: 'ease'});
+    };
+    chips.forEach((c, i) => {
+      const pick = (el, focus) => { chips.forEach(o => { const on = o === el; o.setAttribute('aria-checked', String(on)); o.tabIndex = on ? 0 : -1; }); cat = el.dataset.cat; if (focus) el.focus(); apply(); };
+      c.addEventListener('click', () => pick(c));
+      c.addEventListener('keydown', e => { const d = {ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1}[e.key]; if (d) { e.preventDefault(); pick(chips[(i + d + chips.length) % chips.length], true); } });
+    });
+    input?.addEventListener('input', () => { clearTimeout(t); t = setTimeout(apply, 150); });
+  }
+
+  /* Contact form (demo): validate, spinner, success message */
+  const form = $('.ct-form');
+  if (form) {
+    const fields = $$('input, textarea', form);
+    const sel = $('.ct-select', form), select = $('select', form);
+    select.addEventListener('focus', () => sel.classList.add('open'));
+    select.addEventListener('blur', () => sel.classList.remove('open'));
+    select.addEventListener('change', () => sel.classList.remove('open'));
+    const msgFor = f => f.validity.valueMissing ? `Please enter your ${$('label[for="' + f.id + '"]', form).textContent.toLowerCase()}.` : f.validity.typeMismatch ? 'Enter an email address, like you@example.com.' : '';
+    const check = f => { const m = msgFor(f), box = f.closest('.ct-field'); box.classList.toggle('err', !!m); box.classList.toggle('filled', !m && !!f.value); $('.ct-err', box).textContent = m; f.setAttribute('aria-invalid', String(!!m)); return !m; };
+    fields.forEach(f => { f.addEventListener('blur', () => { if (f.value) check(f); }); f.addEventListener('input', () => { if (f.closest('.ct-field').classList.contains('err')) check(f); }); });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const bad = fields.filter(f => !check(f));
+      if (bad.length) { bad[0].focus(); return; }
+      const btn = $('button[type="submit"]', form); btn.classList.add('is-loading');
+      setTimeout(() => { form.hidden = true; const done = $('.ct-done'); done.hidden = false; done.setAttribute('tabindex', '-1'); done.focus(); }, 900);
+    });
+  }
+
   /* Demo CTA (assessment not connected yet) */
   $$('.ph-demo').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
