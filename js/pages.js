@@ -18,7 +18,9 @@
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-in')));
 
   /* Reveals */
-  inView($$('[data-wipe], .sh-st-photo, [data-path], [data-steps], [data-diagram]'), addIn, {threshold: .3});
+  inView($$('[data-path], [data-steps], [data-diagram]'), addIn, {threshold: .3});
+  /* clipped elements report no visible area, so watch their wrapper instead */
+  $$('[data-wipe], .sh-st-photo').forEach(el => inView([el.parentElement], () => el.classList.add('is-in'), {threshold: .3}));
 
   /* Mark replay on hover (trust strip, product cards) */
   const play = m => { if (!m || isReduced()) return; m.classList.remove('play'); void m.offsetWidth; m.classList.add('play'); };
@@ -118,15 +120,16 @@
 
   /* Mobile sticky bar: after the hero CTA leaves view, hidden at the final CTA */
   const sticky = $('.sticky-cta'), startBtn = $('[data-sticky-start]'), endSec = $('[data-sticky-end]');
-  if (sticky && startBtn && endSec && 'IntersectionObserver' in window) {
-    let gone = false, atEnd = false;
+  if (sticky && startBtn && endSec) {
     const upd = () => {
+      const gone = startBtn.getBoundingClientRect().bottom < 0;
+      const atEnd = endSec.getBoundingClientRect().top < window.innerHeight;
       const menuOpen = $('.menu-panel')?.classList.contains('open');
       const show = gone && !atEnd && !menuOpen;
       sticky.classList.toggle('show', show); sticky.inert = !show; sticky.setAttribute('aria-hidden', String(!show));
     };
-    new IntersectionObserver(([e]) => { gone = !e.isIntersecting && e.boundingClientRect.top < 0; upd(); }).observe(startBtn);
-    new IntersectionObserver(([e]) => { atEnd = e.isIntersecting || e.boundingClientRect.top < 0; upd(); }).observe(endSec);
+    window.addEventListener('scroll', upd, {passive: true});
+    window.addEventListener('resize', upd);
     upd();
   }
 })();
