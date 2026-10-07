@@ -1,5 +1,8 @@
 /* SoviCare — inner pages (category, How it works, FAQ, Contact). Built from the Figma frames marked ✅ CURRENT · APPROVED 01.10. */
 
+/* Pieces that bleed off the edge never cause sideways scrolling */
+html,body{overflow-x:clip}
+
 /* Category themes (Figma collection "Category theme") */
 .th-intimacy{--th-dom:#219EBC;--th-dom-deep:#177E97;--th-sec:#FF007F;--th-sec-deep:#C2006B;--th-wash:#FFE5F2;--th-wash2:#E4F4F8}
 .th-longevity{--th-dom:#2A9D8F;--th-sec:#FFBE0B;--th-wash:#E3F3F1;--th-wash2:#FFF8E3}
@@ -256,9 +259,9 @@
   .hw-intro p{margin-top:24px;font-size:14px}
   .hw-layout{display:block}
   .hw-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;border:0;margin-bottom:12px}
-  .hw-step{min-height:118px;grid-template-columns:32px 1fr;gap:8px;align-content:start;align-items:start;border:1px solid var(--line-mid);border-radius:var(--r-card);padding:12px}
+  .hw-step{min-height:118px;grid-template-columns:1fr;gap:12px;align-content:start;align-items:start;border:1px solid var(--line-mid);border-radius:var(--r-card);padding:12px}
   .hw-num{width:32px;height:32px}
-  .hw-step-title{font-size:19px;line-height:1.15;overflow-wrap:anywhere}
+  .hw-step-title{font-size:19px;line-height:1.15}
   .hw-arrow{display:none}
   .hw-stage{min-height:365px}
   .hw-quarter{width:185px;height:185px;right:24px}
