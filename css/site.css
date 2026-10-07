@@ -599,3 +599,8 @@ em,.em{font-style:italic}
 /* Hero: photo blends into the Deep Teal field, no visible edge (Avi, 07.10) */
 .hero-media{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 35%);mask-image:linear-gradient(90deg,transparent 0,#000 35%)}
 @media (max-width:900px){.hero-media{-webkit-mask-image:none;mask-image:none}}
+
+/* Category cards: hover introduces (brand hub Motion Lab 03). Card turns Deep Teal, its mark lifts. (Avi, 07.10) */
+.cat,.cat .cat-for,.cat .desc,.cat .prov,.cat h3 a,.cat-tag{transition:background-color var(--t-hover) ease,color var(--t-hover) ease,border-color var(--t-hover) ease}
+.cat-tag svg{transition:transform 320ms ease}
+@media (hover:hover){.cat:hover{background:var(--teal);border-color:var(--teal);color:var(--mist)} .cat:hover h3 a,.cat:hover .cat-tag{color:var(--mist)} .cat:hover .cat-for,.cat:hover .desc,.cat:hover .prov{color:var(--on-dark)} .cat:hover .prov{border-top-color:var(--border-on-dark)} .cat:hover .cat-tag svg{transform:translateY(-10px) rotate(-8deg)} .cat:hover .btn-outline{border-color:var(--line-deep);color:var(--mist);background:transparent} .cat:hover .btn-outline:hover{background:var(--yellow);border-color:var(--yellow);color:var(--teal)}}
