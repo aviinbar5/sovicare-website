@@ -42,10 +42,16 @@
     const cards = $('.sh-cards');
     const groups = $$('.chips', picker);
     const val = g => $('[aria-checked="true"]', g)?.dataset.v;
+    const all = $$('.pcard', cards).map(c => c.dataset.product);
     const match = () => {
       const a = val(groups[0]), b = val(groups[1]);
       let best = null;
-      if (a === 'timing' || b === 'daily') best = 'tadalafil';
+      if (cards.hasAttribute('data-goals')) {
+        /* goal cards: format narrows the list, goal decides within it */
+        const list = $$('.pcard', cards).filter(c => !b || b === 'unsure' || c.dataset.format === b);
+        const pickC = list.find(c => (c.dataset.goals || '').split(' ').includes(a)) || (a === 'unsure' && b && b !== 'unsure' ? list[0] : null);
+        best = pickC ? pickC.dataset.product : null;
+      } else if (a === 'timing' || b === 'daily') best = 'tadalafil';
       else if (a === 'plan') best = 'sildenafil';
       else if (b === 'needed' && a !== 'unsure') best = 'sildenafil';
       $$('.pcard', cards).forEach(c => {
@@ -54,7 +60,7 @@
         const btn = $('.btn', c);
         btn.classList.toggle('btn-primary', on); btn.classList.toggle('btn-outline', !on);
       });
-      const order = best ? [best, ...['tadalafil', 'sildenafil'].filter(p => p !== best)] : ['tadalafil', 'sildenafil'];
+      const order = best ? [best, ...all.filter(p => p !== best)] : all;
       const first = new Map($$('.pcard', cards).map(c => [c, c.getBoundingClientRect()]));
       order.forEach(p => cards.appendChild($(`.pcard[data-product="${p}"]`, cards)));
       if (!isReduced()) $$('.pcard', cards).forEach(c => {
@@ -193,9 +199,10 @@
 
   /* Demo CTA (assessment not connected yet) */
   $$('.ph-demo').forEach(a => a.addEventListener('click', e => {
-    e.preventDefault();
     const msg = $('.ph-demo-msg', a.closest('section'));
-    if (msg) msg.textContent = 'Demo only: the assessment is not connected yet.';
+    if (!msg) return; // no message here: follow the link to the closing section
+    e.preventDefault();
+    msg.textContent = 'Demo only: the assessment is not connected yet.';
   }));
 
   /* Mobile sticky bar: after the hero CTA leaves view, hidden at the final CTA */
