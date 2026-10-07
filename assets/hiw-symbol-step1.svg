@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="249.128" height="320" viewBox="0 0 249.128 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="symbol &#194;&#183; assembled per step" clip-path="url(#clip0_0_12)">
+<path id="piece 1 &#194;&#183; Assess &#194;&#183; on" d="M109.6 2.30201C81.8188 2.30201 55.1757 13.338 35.5316 32.982C15.8875 52.6261 4.85156 79.2693 4.85156 107.05C4.85156 134.831 15.8875 161.474 35.5316 181.118C55.1757 200.762 81.8188 211.798 109.6 211.798V2.30201Z" fill="#264653"/>
+<path id="piece 2 &#194;&#183; Test &#194;&#183; slot" d="M247.729 2.30201H146.434C146.434 29.1671 157.106 54.9319 176.103 73.9284C195.099 92.9249 220.864 103.597 247.729 103.597V2.30201Z" stroke="#A8C2CD" stroke-width="1.07383" stroke-dasharray="3.22 5.37"/>
+<path id="piece 3 &#194;&#183; Review &#194;&#183; slot" d="M145.283 115.108C172.453 115.108 198.511 125.901 217.723 145.114C236.936 164.326 247.729 190.384 247.729 217.554C247.729 244.724 236.936 270.782 217.723 289.994C198.511 309.207 172.453 320 145.283 320V115.108Z" stroke="#A8C2CD" stroke-width="1.07383" stroke-dasharray="3.22 5.37"/>
+<path id="piece 4 &#194;&#183; Treat &#194;&#183; slot" d="M0.247122 320V218.705C27.1122 218.705 52.877 229.377 71.8735 248.374C90.87 267.37 101.542 293.135 101.542 320H0.247122Z" stroke="#A8C2CD" stroke-width="1.07383" stroke-dasharray="3.22 5.37"/>
+</g>
+<defs>
+<clipPath id="clip0_0_12">
+<rect width="249.128" height="320" fill="white"/>
+</clipPath>
+</defs>
+</svg>
